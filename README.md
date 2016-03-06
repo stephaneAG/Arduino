@@ -16,7 +16,8 @@ Arduino sketches &amp; stuff ( old &amp; new )
 -> ```kextstat```
 
 #### Check if FTDI kext is installed /loaded ?
--> ```ls -ld `/System/Library/Extensions/FTDIUSBSerialDriver.kext` ``` and ```kextstat | grep FTDI```
+-> ```ls -ld `/System/Library/Extensions/FTDIUSBSerialDriver.kext` ``` and ```kextstat | grep FTDI```  
+=> ```191    0 0x844b7000 0x8000     0x7000     com.FTDI.driver.FTDIUSBSerialDriver (2.2.18) <119 34 5 4 3 1>```
 
 #### Check if the OS has detected the USB device ?
 -> go to System Profiler > Hardware > USB > the_device
