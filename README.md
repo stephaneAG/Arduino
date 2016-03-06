@@ -21,7 +21,8 @@ Arduino sketches &amp; stuff ( old &amp; new )
 => ```191    0 0x844b7000 0x8000     0x7000     com.FTDI.driver.FTDIUSBSerialDriver (2.2.18) <119 34 5 4 3 1>```
 
 #### Check if the OS has detected the USB device ?
--> go to System Profiler > Hardware > USB > the_device
+-> go to System Profiler > Hardware > USB > the_device  
+=> ex: Arduino UNO
 ```
 Arduino Uno :
 
@@ -33,6 +34,20 @@ Arduino Uno :
   Fabricant :	Arduino (www.arduino.cc)
   Identifiant de l’emplacement :	0xfd141000 / 8
   Courant disponible (mA) :	100
+  Courant requis (mA) :	100
+```
+=> ex: Espruino Pico
+```
+STM32 Virtual ComPort :
+
+  Identifiant du produit :	0x5740
+  Identifiant du fournisseur :	0x0483  (STMicroelectronics)
+  Version :	 2.00
+  Numéro de série :	00000000001A
+  Vitesse :	Jusqu’à 12 Mb/s
+  Fabricant :	STMicroelectronics
+  Identifiant de l’emplacement :	0xfa144000 / 9
+  Courant disponible (mA) :	500
   Courant requis (mA) :	100
 ```
 -> record PID & VID & convert them to decimal ( convert base 16 into base 10 for each of the two numbers )  
