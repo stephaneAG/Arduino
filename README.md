@@ -42,11 +42,11 @@ Arduino Uno :
 -> each device is grouped in a section within a <dict> with "CFBundleIdentifier" == "com.FTDI.driver.FTDIUSBSerialDriver"  
 -> if we find the device, we can try to unload/load the driver, else, we way be up to add a new device config  
 
-#### Add a new device config the a .kext Info.plist ?
+#### Add a new device config to the a .kext Info.plist ?
 -> ```cp Info.plist Info.plist.ORIG``` to make a backup of the Info.plist  
 -> find the first or last entry in the <dict>  & add a custom entry
 -> choose one in the list as a template, or use one of the followings as a model, and then add it to the Info.plist  
-simplest template
+=> simplest template:
 ```
 <key>My Awesome Device</key>
 		<dict>
@@ -66,7 +66,7 @@ simplest template
 			<integer>2134</integer>
 		</dict>
 ```
-template with two entries ( for devices that provides more than one serial port ), see their "bInterfaceNumber"
+=> template with two entries ( for devices that provides more than one serial port ), see their "bInterfaceNumber":
 ```
 <key>My Awesome Device 1</key>
 		<dict>
@@ -103,7 +103,7 @@ template with two entries ( for devices that provides more than one serial port 
 			<integer>2134</integer>
 		</dict>
 ```
-template with additional config data ( non-exhaustive / to digg before setting/using ;p )
+=> template with additional config data ( non-exhaustive / to digg before setting/using ;p ):
 ```
 <key>My Awesome Device</key>
 		<dict>
@@ -142,7 +142,7 @@ template with additional config data ( non-exhaustive / to digg before setting/u
 		</dict>
 ```
 
-#### Check if .kext already loaded or unload/load one ?
+#### Check if a .kext is already loaded or unload/load one ?
 -> ```kextstat |grep FTDI``` to check if loaded ( if it returns anything, unloading it / rebooting are our choices )  
 -> ```kextunload /System/Library/Extensions/FTDIUSBSerialDriver.kext``` to unload ( can fail, so look for "success")  
 -> ```kextload /System/Library/Extensions/FTDIUSBSerialDriver.kext``` to load it ( as root or sudo )  
