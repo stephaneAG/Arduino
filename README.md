@@ -66,7 +66,7 @@ STM32 Virtual ComPort :
 -> ```cp Info.plist Info.plist.ORIG``` to make a backup of the Info.plist  
 -> find the first or last entry in the <dict>  & add a custom entry
 -> choose one in the list as a template, or use one of the followings as a model, and then add it to the Info.plist  
--> ```sudo chown root:wheel Info.plist``` to reset the correct file ownership/permissions once done
+-> ```sudo chown root:wheel Info.plist``` to reset the correct file ownership/permissions once done  
 => simplest template:
 ```
 <key>My Awesome Device</key>
