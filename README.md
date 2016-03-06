@@ -1,22 +1,24 @@
 # Arduino
 Arduino sketches &amp; stuff ( old &amp; new )
 
-### Can't access the serial port in the official IDE ?
+### Troubles ? read the followings! ( relevant for other uC as well )
+
+#### Can't access the serial port in the official IDE ?
 -> ```sudo usermod -aG dialout <username> && sudo usermod -aG tty <username>``` ;p
 
-### Wana know if some serial port is already used by some stuff ?
+#### Know if some serial port is already used by some stuff ?
 -> ```lsof | grep tty.usbmodemfd1411```
 
-### Wana get more infos on some serial port ?
+#### Get more infos on some serial port ?
 -> ```ls -l /dev/tty.usbmodemfd1411```
 
-### Wana list the loaded kernel extensions ( .kext ) ?
+#### List the loaded kernel extensions ( .kext ) ?
 -> ```kextstat```
 
-### Wana check if FTDI kext is installed /loaded ?
+#### Check if FTDI kext is installed /loaded ?
 -> ```ls -ld `/System/Library/Extensions/FTDIUSBSerialDriver.kext` ``` and ```kextstat | grep FTDI```
 
-### Wana check if the OS has detected the USB device ?
+#### Check if the OS has detected the USB device ?
 -> go to System Profiler > Hardware > USB > the_device
 ```
 Arduino Uno :
@@ -35,15 +37,112 @@ Arduino Uno :
 -> ```dc -e "16i the_PID p the_VID p"```  
 -> ex: dc -e "16i 0001 p 2341 p" for the above device, which renders: PID: 1 & VID: 9025  
 
-### Wana look for some product in a driver ?
+#### Look for some product in a driver ?
 -> ```cd /System/Library/Extensions/FTDIUSBSerialDriver.kext/Contents/```& then search the Info.plist for PID/VID  
 -> each device is grouped in a section within a <dict> with "CFBundleIdentifier" == "com.FTDI.driver.FTDIUSBSerialDriver"  
 -> if we find the device, we can try to unload/load the driver, else, we way be up to add a new device config  
 
-### Wana add a new device config the a .kext Info.plist ?
--> ``````
+#### Add a new device config the a .kext Info.plist ?
+-> ```cp Info.plist Info.plist.ORIG``` to make a backup of the Info.plist  
+-> find the first or last entry in the <dict>  & add a custom entry
+-> choose one in the list as a template, or use one of the followings as a model, and then add it to the Info.plist  
+simplest template
+```
+<key>My Awesome Device</key>
+		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>com.FTDI.driver.FTDIUSBSerialDriver</string>
+			<key>IOClass</key>
+			<string>FTDIUSBSerialDriver</string>
+			<key>IOProviderClass</key>
+			<string>IOUSBInterface</string>
+			<key>bConfigurationValue</key>
+			<integer>1</integer>
+			<key>bInterfaceNumber</key>
+			<integer>0</integer>
+			<key>idProduct</key>
+			<integer>44084</integer>
+			<key>idVendor</key>
+			<integer>2134</integer>
+		</dict>
+```
+template with two entries ( for devices that provides more than one serial port ), see their "bInterfaceNumber"
+```
+<key>My Awesome Device 1</key>
+		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>com.FTDI.driver.FTDIUSBSerialDriver</string>
+			<key>IOClass</key>
+			<string>FTDIUSBSerialDriver</string>
+			<key>IOProviderClass</key>
+			<string>IOUSBInterface</string>
+			<key>bConfigurationValue</key>
+			<integer>1</integer>
+			<key>bInterfaceNumber</key>
+			<integer>0</integer>
+			<key>idProduct</key>
+			<integer>44084</integer>
+			<key>idVendor</key>
+			<integer>2134</integer>
+		</dict>
+<key>My Awesome Device 2</key>
+		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>com.FTDI.driver.FTDIUSBSerialDriver</string>
+			<key>IOClass</key>
+			<string>FTDIUSBSerialDriver</string>
+			<key>IOProviderClass</key>
+			<string>IOUSBInterface</string>
+			<key>bConfigurationValue</key>
+			<integer>1</integer>
+			<key>bInterfaceNumber</key>
+			<integer>1</integer>
+			<key>idProduct</key>
+			<integer>44084</integer>
+			<key>idVendor</key>
+			<integer>2134</integer>
+		</dict>
+```
+template with additional config data ( non-exhaustive / to digg before setting/using ;p )
+```
+<key>My Awesome Device</key>
+		<dict>
+			<key>CFBundleIdentifier</key>
+			<string>com.FTDI.driver.FTDIUSBSerialDriver</string>
+			<key>ConfigData</key>
+			<dict>
+				<key>BaudRates</key>
+				<dict>
+					<key>BAUDALL</key>
+					<string>9600</string>
+					<key>B115200</key>
+					<string>115200</string>
+				</dict>
+				<key>PortName</key>
+				<string>MiniPlex</string>
+				<key>InBufferSize</key>
+				<integer>128</integer>
+				<key>LatencyTimer</key>
+				<integer>2</integer>
+				<key>MIDI</key>
+				<false/>
+			</dict>
+			<key>IOClass</key>
+			<string>FTDIUSBSerialDriver</string>
+			<key>IOProviderClass</key>
+			<string>IOUSBInterface</string>
+			<key>bConfigurationValue</key>
+			<integer>1</integer>
+			<key>bInterfaceNumber</key>
+			<integer>0</integer>
+			<key>idProduct</key>
+			<integer>44084</integer>
+			<key>idVendor</key>
+			<integer>2134</integer>
+		</dict>
+```
 
-### Wana check if .kext already loaded or unload/load one ?
+#### Check if .kext already loaded or unload/load one ?
 -> ```kextstat |grep FTDI``` to check if loaded ( if it returns anything, unloading it / rebooting are our choices )  
 -> ```kextunload /System/Library/Extensions/FTDIUSBSerialDriver.kext``` to unload ( can fail, so look for "success")  
 -> ```kextload /System/Library/Extensions/FTDIUSBSerialDriver.kext``` to load it ( as root or sudo )  
