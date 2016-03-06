@@ -7,7 +7,7 @@ Arduino sketches &amp; stuff ( old &amp; new )
 -> ```sudo usermod -aG dialout <username> && sudo usermod -aG tty <username>``` ;p
 
 #### Know if some serial port is already used by some stuff ?
--> ```lsof | grep tty.usbmodemfd1411```
+-> ```lsof | grep tty.usbmodemfd1411```  
 => ```Google      730 stephanegarnier  194u     CHR      11,12        0t0      633 /dev/tty.usbmodemfd1411```
 
 #### Get more infos on some serial port ?
