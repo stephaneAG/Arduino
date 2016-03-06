@@ -8,7 +8,10 @@ Arduino sketches &amp; stuff ( old &amp; new )
 
 #### Know if some serial port is already used by some stuff ?
 -> ```lsof | grep tty.usbmodemfd1411```  
+-> ex: when using a Chrome Packaged App that uses the serial API:  
 => ```Google      730 stephanegarnier  194u     CHR      11,12        0t0      633 /dev/tty.usbmodemfd1411```
+-> ex: when using the serial console of the "classic" Arduino IDE ( the Java-based one from Wiring/Processing ):  
+=> ```JavaAppli 54157 stephanegarnier   65u     CHR      11,28       0t60      677 /dev/tty.usbmodemfa1441```
 
 #### Get more infos on some serial port ?
 -> ```ls -l /dev/tty.usbmodemfd1411```
